@@ -1,0 +1,708 @@
+:root {
+    --primary-background: #f8f8f8;
+    --card-light-off-white: #f0f0f5;
+    --card-dark-off-white: #e8e8ed;
+    --light-cream: #222222;
+    --dark-text: #f8f8f8;
+    --border-light: rgba(0, 0, 0, 0.1);
+    --glow-color: #c6a4fa; /* Your existing glow color */
+
+    --border-radius-xl-plus: 1.25rem;
+    --border-radius-2xl-plus: 1.5rem;
+
+    --font-sans: 'Atkinson Hyperlegible Mono', sans-serif;
+    --font-serif: 'Atkinson Hyperlegible Mono', serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    background-color: var(--primary-background);
+    color: var(--light-cream);
+    line-height: 1.6;
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden; /* Prevent horizontal scrollbar during animation */
+}
+
+/* Custom Scrollbar for WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--primary-background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--glow-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a980e0;
+}
+
+.container {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.site-name {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--light-cream);
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: inherit;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 2rem;
+    transition: color 0.3s ease;
+    color: var(--light-cream);
+}
+
+.main-nav a:hover {
+    color: var(--glow-color);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-light-off-white);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-2xl-plus);
+    border: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 0px 0px var(--glow-color);
+    transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+    position: relative;
+    transform-origin: center center;
+    cursor: pointer;
+
+    /* Initial state for cards (off-screen and invisible) */
+    opacity: 0;
+    transform: translateX(-100vw); /* Start off-screen to the left */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+/* Final state for cards (visible and in place) - controlled by JS */
+.card.card-animate-in {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.card:hover {
+    box-shadow: 0 0 15px 0px var(--glow-color);
+    border-color: var(--glow-color);
+}
+
+.main-quote-card {
+    grid-column: span 2;
+    grid-row: span 2;
+    background-color: var(--card-light-off-white);
+    justify-content: flex-end;
+    position: relative;
+    min-height: 450px;
+}
+
+.main-quote-card h2 {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    line-height: 1.1;
+    font-weight: 500;
+    color: var(--light-cream);
+    margin-bottom: 0;
+}
+
+.main-quote-card h2 .italic {
+    font-style: italic;
+}
+
+.top-right-square {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--light-cream);
+    border-radius: 2px;
+}
+
+.portrait-card-wrapper {
+    grid-column: span 1;
+    grid-row: span 2;
+    background-color: var(--card-dark-off-white);
+    padding: 0;
+    display: flex;
+    perspective: 1000px;
+    min-height: 450px;
+}
+
+.portrait-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    border-radius: var(--border-radius-2xl-plus);
+    overflow: hidden;
+}
+
+.portrait-card-wrapper.is-flipped .portrait-card-inner {
+    transform: rotateY(180deg);
+}
+
+.portrait-card-front,
+.portrait-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    border-radius: var(--border-radius-2xl-plus);
+    box-sizing: border-box;
+    color: var(--light-cream);
+}
+
+.portrait-card-front {
+    background-color: var(--card-dark-off-white);
+}
+
+.portrait-card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--border-radius-xl-plus);
+}
+
+.portrait-card-back {
+    background-color: var(--card-dark-off-white);
+    transform: rotateY(180deg);
+    color: var(--light-cream);
+    text-align: left;
+}
+
+.portrait-card-back .back-content {
+    width: 100%;
+    padding: 0 1rem;
+    overflow-y: auto;
+}
+
+.portrait-card-back h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--light-cream);
+}
+
+.portrait-card-back h4 {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--light-cream);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 0.25rem;
+}
+
+.portrait-card-back p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
+.portrait-card-back ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.portrait-card-back ul li {
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.project-card {
+    grid-column: span 1;
+    background-color: var(--card-light-off-white);
+    justify-content: space-between;
+    min-height: 250px;
+    padding: 1.5rem;
+}
+
+.project-card h4 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: var(--light-cream);
+}
+
+.project-card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.9;
+    flex-grow: 1;
+    color: var(--light-cream);
+}
+
+.project-card .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.project-card .tags span {
+    background-color: var(--dark-text);
+    color: #000000;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+
+.empty-square-card {
+    grid-column: span 1;
+    background-color: var(--card-light-off-white);
+    min-height: 300px;
+}
+
+.contact-me-card {
+    grid-column: span 1;
+    background-color: var(--card-dark-off-white);
+    justify-content: space-between;
+    min-height: 300px;
+}
+
+.contact-me-card .small-text {
+    font-family: var(--font-serif);
+    font-size: 0.875rem;
+    color: var(--light-cream);
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+}
+
+.contact-me-card h3 {
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    font-weight: 500;
+    color: var(--light-cream);
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.dots {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: var(--light-cream);
+    border-radius: 9999px;
+}
+
+.dot.active {
+    background-color: var(--glow-color);
+}
+
+
+/* --- Project Modal Styles (Common for all modals) --- */
+.project-modal,
+.contact-modal { /* Apply common modal styles to both */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.project-modal.active,
+.contact-modal.active { /* Apply active state to both */
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Initial hidden state for modal content (common) */
+.project-modal .modal-content,
+.contact-modal .modal-content {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Visible state for modal content when parent modal is active (common) */
+.project-modal.active .modal-content,
+.contact-modal.active .modal-content {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Modal Content Base (common, overrides specific settings if needed) */
+.modal-content {
+    background-color: var(--card-light-off-white);
+    border-radius: var(--border-radius-2xl-plus);
+    padding: 2.5rem;
+    width: 80%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto; /* Enable scrolling for content */
+
+    /* Scrollbar Hiding (Cross-Browser) */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    position: relative;
+    box-shadow: 0 0 30px 0px var(--glow-color), 0 0 0 1px var(--glow-color);
+    border: 1px solid var(--glow-color);
+    color: var(--light-cream);
+}
+
+/* For WebKit browsers (Chrome, Safari, Edge) */
+.modal-content::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Specific styles for the project modal content */
+/* (Keeping these separate might be useful if project modal needs different max-width/padding) */
+.project-modal .modal-content {
+    /* If you want different max-width or padding for project modal, put it here */
+    /* For instance, if its images force a different width/height */
+    max-width: 500px; /* Example: making project modal a bit narrower */
+    /* padding: 2rem; */
+}
+
+
+.close-modal-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--light-cream);
+    cursor: pointer;
+    z-index: 1001;
+    transition: color 0.3s ease;
+}
+
+.close-modal-btn:hover {
+    color: var(--glow-color);
+}
+
+.modal-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: var(--light-cream);
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers items horizontally */
+    width: 100%; /* Ensure it takes full width for form elements */
+}
+
+.modal-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.modal-tags {
+    margin-bottom: 2rem;
+    display: none; /* Tags are hidden inside the modal */
+}
+
+.image-carousel {
+    position: relative;
+    width: 100%; /* Allows it to shrink on smaller screens */
+    max-width: 350px; /* Primary control for carousel size */
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: calc(100% / 9 * 16); /* Maintains 9:16 aspect ratio based on its width */
+    background-color: var(--card-dark-off-white);
+    border-radius: var(--border-radius-xl-plus);
+    overflow: hidden;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.carousel-images {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+    background-color: var(--dark-text);
+}
+
+.carousel-images img {
+    min-width: 100%;
+    height: 100%;
+    object-fit: contain; /* Scales image down to fit without cropping */
+    display: block;
+    border-radius: var(--border-radius-xl-plus);
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    z-index: 10;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-nav:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-nav.prev {
+    left: 1rem;
+}
+
+.carousel-nav.next {
+    right: 1rem;
+}
+
+.project-link-btn,
+.send-message-btn { /* Apply common button styles */
+    display: inline-block;
+    background-color: var(--glow-color);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 1.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    border: none;
+    align-self: center; /* Centers the button if parent is flex column */
+}
+
+.project-link-btn:hover,
+.send-message-btn:hover {
+    background-color: #a980e0;
+    transform: translateY(-2px);
+}
+
+/* NEW: Contact Form Specific Styles */
+.contact-modal .modal-content {
+    max-width: 500px; /* Adjust max-width for the contact form modal if different */
+    padding: 2.5rem;
+}
+
+.contact-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Space between form groups */
+}
+
+.form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 1rem;
+    color: var(--light-cream);
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group textarea {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 10px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background-color: var(--card-light-off-white);
+    color: var(--light-cream);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--glow-color);
+    box-shadow: 0 0 0 2px rgba(198, 164, 250, 0.5); /* Glow on focus */
+}
+
+.form-group textarea {
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 100px; /* Minimum height for textarea */
+}
+
+
+/* Media queries for responsiveness */
+@media (max-width: 1024px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
+
+    .main-quote-card,
+    .portrait-card-wrapper,
+    .project-card,
+    .empty-square-card,
+    .contact-me-card {
+        grid-column: span 2;
+        grid-row: auto;
+        min-height: auto;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 1.5rem;
+    }
+
+    .modal-title {
+        font-size: 2rem;
+    }
+
+    .modal-description {
+        font-size: 1rem;
+    }
+
+    .image-carousel {
+        max-width: 300px; /* Adjust for tablets */
+    }
+
+    .contact-modal .modal-content {
+        max-width: 400px; /* Adjust for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+    .main-nav {
+        display: none;
+    }
+    .header {
+        justify-content: center;
+    }
+    .main-quote-card,
+    .portrait-card-wrapper,
+    .project-card,
+    .empty-square-card,
+    .contact-me-card {
+        grid-column: span 1;
+        min-height: auto;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .modal-title {
+        font-size: 1.8rem;
+    }
+
+    .modal-description {
+        font-size: 0.9rem;
+    }
+
+    .image-carousel {
+        max-width: 250px; /* Adjust for mobile */
+    }
+
+    .carousel-nav {
+        padding: 0.5rem 0.75rem;
+        font-size: 1.2rem;
+    }
+
+    .contact-modal .modal-content {
+        max-width: 300px; /* Adjust for mobile */
+        padding: 1.2rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 0.9rem;
+    }
+}
