@@ -97,10 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'E-commerce Clone',
             description: 'A modern full-stack e-commerce platform built to replicate a popular online store. It features a responsive design, product listings, shopping cart functionality, secure payment processing with Stripe, and content management via Sanity.io. This project emphasizes performance optimization, secure transactions, and a seamless user experience.',
             tags: ['Next.js', 'Stripe API', 'Sanity.io', 'Tailwind CSS', 'React', 'Node.js'],
-            images: [
-                './assets/ecommerce/ecommerce-1.jpg',
-                './assets/ecommerce/ecommerce-2.jpg',
-            ],
             link: 'https://github.com/your-username/ecommerce-clone'
         }
     };
