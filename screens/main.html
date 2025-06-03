@@ -14,34 +14,88 @@
         <header class="header">
             <h1 class="site-name">Harrold Al-Mussa</h1>
             <nav class="main-nav">
-                <a href="#about">About</a>
+                <a href="#about-card">About</a>
                 <a href="#work">Projects</a>
-                <a href="#contact">Contact</a>
+                <a href="#contact-modal">Contact</a>
             </nav>
         </header>
 
         <main class="grid-container">
             <section class="card main-quote-card">
-                <div class="top-right-square"></div>
                 <h2>Architecting for visually stunning and functionally powerful web interfaces.</h2>
             </section>
 
-            <section class="card portrait-card-wrapper">
-                <div class="portrait-card-inner">
-                    <div class="portrait-card-front">
-                        <img src="./assets/main.jpg" alt="Portrait of Harrold Al-Mussa">
+            <section class="card portrait-card-wrapper" id="about-card">
+                <div class="card-visible-content">
+                    <img src="C:\Users\harro\harrold-al-mussa\assets\main.png" alt="Portrait of Harrold Al-Mussa" class="card-main-image">
+                    <div class="card-name-role">
+                        <h3>Harrold Al-Mussa</h3>
+                        <p>I'm a Full Stack Developer driven to create intuitive and visually stunning web interfaces.</p>
                     </div>
-                    <div class="portrait-card-back">
-                        <div class="back-content">
-                            <h3>About Me</h3>
-                             <p>Experienced and driven to code.</p>
-                            <h4>Work Experience</h4>
-                            <ul>
-                                <li>**Senior UI Developer** at Tech Solutions Inc. (2022 - Present)</li>
-                                <li>**Frontend Engineer** at Design Co. (2019 - 2022)</li>
-                                <li>**Junior Web Developer** at Creative Studio (2017 - 2019)</li>
-                            </ul>
+                    <button class="about-me-trigger-btn">About Me</button>
+                </div>
+
+                <div class="card-expanded-content">
+                    <button class="close-card-btn">&times;</button>
+                    <div class="expanded-text-area">
+                        <h3>About Me</h3>
+                        <p>A dedicated professional with 6 years of customer support experience. I'm driven to pursue web/app development roles, where my strong work ethic and responsibility can contribute to innovative projects.</p>
+
+                        <h4>Skillset</h4>
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h5>Soft Skills</h5>
+                                <ul>
+                                    <li>Networking </li>
+                                    <li>Communication </li>
+                                    <li>Management </li>
+                                    <li>Organization </li>
+                                    <li>Teamwork</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h5>Languages</h5>
+                                <ul>
+                                    <li>English : <em>C2 - native</em></li>
+                                    <li>French : <em>B1 - intermediate</em></li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h5>Operational Tools</h5>
+                                <ul>
+                                    <li>MS Office</li>
+                                    <li>Google Workspace </li>
+                                    <li>Zendesk </li>
+                                    <li>Android Studio</li>
+                                    <li>Power BI</li>
+                                    <li>Firebase</li>
+                                    <li>GitHub</li>
+                                    <li>Trello </li>
+                                    <li>Visual Studio</li>
+                                    <li>Ubuntu Linux</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h5>Technical Skills</h5>
+                                <ul>
+                                    <li>HTML5 & CSS</li>
+                                    <li>Node.js/Express.js</li>
+                                    <li>Java</li>
+                                    <li>React</li>
+                                    <li>Expo</li>
+                                    <li>PostgreSQL</li>
+                                    <li>FrontEnd Libraries : <em>Bootstrap - TailwindCSS - jQuery</em></li>
+                                    <li>Data Visualization : <em>JSON - D3</em></li>
+                                    <li>GitLab CI/CD</li>
+                                </ul>
+                            </div>
                         </div>
+                        <h4>Work Experience</h4>
+                        <ul>
+                            <li>FrontEnd Developer - Freelance - Jan 2025 to Present</li>
+                            <li>Customer Support Lead - Pouch at Atolls (formerly Global Saving Group) - Oct 2021 to May 2025</li>
+                            <li>Bilingual Recruitment Assistant - Momji - Aug 2021 to Oct 2021</li>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -78,7 +132,16 @@
                     <span>Tailwind CSS</span>
                 </div>
             </section>
-            <section class="card empty-square-card"></section>
+            <section class="card to-do-card" data-project="todo">
+                <h4>To Do Website</h4>
+                <p>A fully-fledged, minimalistic to-do list with a calendar and habit tracker to maximize productivity without clutter. </p>
+                <div class="tags">
+                    <span>React</span>
+                    <span>Node.js</span>
+                    <span>PostGreSQL</span>
+                    <span>Firebase</span>
+                </div>
+            </section>
 
             <section class="card contact-me-card">
                 <p class="small-text">Got a project in mind?</p>
@@ -115,6 +178,7 @@
             <h2 class="modal-title">Get in Touch!</h2>
             <div class="modal-body">
                 <form id="contact-form" class="contact-form">
+                    <input type="hidden" name="apikey" value="52b74de5-31cb-4896-bb68-e08e0617be02">
                     <div class="form-group">
                         <label for="contact-email">Your Email:</label>
                         <input type="email" id="contact-email" name="email" required>

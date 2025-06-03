@@ -3,9 +3,12 @@
     --card-light-off-white: #f0f0f5;
     --card-dark-off-white: #e8e8ed;
     --light-cream: #222222;
+    /* Changed to dark for text color for better contrast on light backgrounds */
     --dark-text: #f8f8f8;
+    /* Changed to light for text color for better contrast on dark backgrounds */
     --border-light: rgba(0, 0, 0, 0.1);
-    --glow-color: #c6a4fa; /* Your existing glow color */
+    --glow-color: #c6a4fa;
+    /* Your existing glow color */
 
     --border-radius-xl-plus: 1.25rem;
     --border-radius-2xl-plus: 1.5rem;
@@ -20,13 +23,15 @@ body {
     font-family: var(--font-sans);
     background-color: var(--primary-background);
     color: var(--light-cream);
+    /* Default body text color for overall theme */
     line-height: 1.6;
     box-sizing: border-box;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden; /* Prevent horizontal scrollbar during animation */
+    overflow-x: hidden;
+    /* Prevent horizontal scrollbar during animation */
 }
 
 /* Custom Scrollbar for WebKit browsers (Chrome, Safari, Edge) */
@@ -108,7 +113,8 @@ body {
 
     /* Initial state for cards (off-screen and invisible) */
     opacity: 0;
-    transform: translateX(-100vw); /* Start off-screen to the left */
+    transform: translateX(-100vw);
+    /* Start off-screen to the left */
     transition: opacity 0.8s ease-out, transform 0.8s ease-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
 }
 
@@ -161,75 +167,185 @@ body {
     background-color: var(--card-dark-off-white);
     padding: 0;
     display: flex;
-    perspective: 1000px;
+    flex-direction: column;
+    justify-content: space-between;
     min-height: 450px;
-}
-
-.portrait-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
-    border-radius: var(--border-radius-2xl-plus);
     overflow: hidden;
+    transition: all 0.5s ease-out;
 }
 
-.portrait-card-wrapper.is-flipped .portrait-card-inner {
-    transform: rotateY(180deg);
-}
-
-.portrait-card-front,
-.portrait-card-back {
+.card-visible-content {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+    text-align: center;
     padding: 1.5rem;
-    border-radius: var(--border-radius-2xl-plus);
     box-sizing: border-box;
-    color: var(--light-cream);
+    z-index: 2;
+    transition: opacity 0.4s ease;
+    border-radius: var(--border-radius-2xl-plus);
 }
 
-.portrait-card-front {
-    background-color: var(--card-dark-off-white);
-}
-
-.portrait-card-front img {
+.card-main-image {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: var(--border-radius-xl-plus);
+    border-radius: var(--border-radius-2xl-plus);
+    z-index: 1;
+    border: 5px solid var(--card-dark-off-white);
+    box-sizing: border-box;
 }
 
-.portrait-card-back {
-    background-color: var(--card-dark-off-white);
-    transform: rotateY(180deg);
-    color: var(--light-cream);
-    text-align: left;
+.card-name-role {
+    z-index: 3;
+    position: relative;
+    margin-bottom: 1rem;
 }
 
-.portrait-card-back .back-content {
+.card-name-role h3 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #000000;
+    /* to change later */
+}
+
+.card-name-role p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    opacity: 0.9;
+    color: #000000;
+    margin-bottom: 0;
+}
+
+.about-me-trigger-btn {
+    background-color: var(--glow-color);
+    color: white;
+    padding: 0.7rem 1.8rem;
+    border-radius: 9999px;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: fit-content;
+    align-self: center;
+    /* Center the button */
+    z-index: 3;
+    /* Ensure button is above gradient and image */
+}
+
+.about-me-trigger-btn:hover {
+    background-color: #a980e0;
+    transform: translateY(-2px);
+}
+
+/* Expanded content area (hidden by default) */
+.card-expanded-content {
+    position: absolute;
+    /* Position over the entire card */
+    top: 0;
+    left: 0;
     width: 100%;
-    padding: 0 1rem;
+    height: 100%;
+    background-color: var(--card-dark-off-white);
+    border-radius: var(--border-radius-2xl-plus);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
     overflow-y: auto;
+    /* Allow scrolling for long content */
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9);
+    /* Initial state: slightly scaled down */
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+    box-sizing: border-box;
+    z-index: 1;
+    /* Below visible content initially */
+
+    /* Scrollbar Hiding (Cross-Browser) */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-.portrait-card-back h3 {
+.card-expanded-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* State when card is expanded */
+.portrait-card-wrapper.is-expanded .card-visible-content {
+    opacity: 0;
+    pointer-events: none;
+    /* Disable interaction with hidden content */
+}
+
+.portrait-card-wrapper.is-expanded .card-expanded-content {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    z-index: 3;
+    /* Bring expanded content to front */
+}
+
+.close-card-btn {
+    position: sticky;
+    top: 0rem;
+    right: 0rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--light-cream);
+    cursor: pointer;
+    z-index: 10;
+    align-self: flex-end;
+    transition: color 0.3s ease;
+    padding: 0;
+    margin: -0.5rem -0.5rem 0 0;
+}
+
+.close-card-btn:hover {
+    color: var(--glow-color);
+}
+
+.expanded-text-area {
+    width: 100%;
+    padding-top: 1rem;
+}
+
+.expanded-text-area h3 {
     font-family: var(--font-serif);
     font-size: 1.5rem;
     font-weight: 500;
+    margin-top: 0;
     margin-bottom: 0.5rem;
     color: var(--light-cream);
+    text-align: center;
 }
 
-.portrait-card-back h4 {
+.expanded-text-area p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.9;
+    color: var(--light-cream);
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.expanded-text-area h4 {
     font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: bold;
@@ -240,26 +356,49 @@ body {
     letter-spacing: 0.05em;
     border-bottom: 1px solid var(--border-light);
     padding-bottom: 0.25rem;
+    text-align: left;
 }
 
-.portrait-card-back p {
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.skill-category h5 {
+    font-family: var(--font-sans);
     font-size: 0.9rem;
-    line-height: 1.5;
-    opacity: 0.9;
-    margin-bottom: 1rem;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--glow-color);
 }
 
-.portrait-card-back ul {
+.skill-category ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.skill-category ul li {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-bottom: 0.25rem;
+}
+
+.expanded-text-area ul {
     list-style: none;
     padding: 0;
     margin: 0;
     font-size: 0.9rem;
 }
 
-.portrait-card-back ul li {
+.expanded-text-area ul li {
     margin-bottom: 0.5rem;
     opacity: 0.9;
 }
+
 
 .project-card {
     grid-column: span 1;
@@ -303,14 +442,23 @@ body {
 }
 
 
-.empty-square-card {
+.to-do-card {
     grid-column: span 1;
     background-color: var(--card-light-off-white);
     min-height: 300px;
 }
 
+.to-do-card span {
+    background-color: var(--dark-text);
+    color: #000000;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
 .contact-me-card {
-    grid-column: span 1;
+    grid-column: span 2;
     background-color: var(--card-dark-off-white);
     justify-content: space-between;
     min-height: 300px;
@@ -353,7 +501,8 @@ body {
 
 /* --- Project Modal Styles (Common for all modals) --- */
 .project-modal,
-.contact-modal { /* Apply common modal styles to both */
+.contact-modal {
+    /* Apply common modal styles to both */
     position: fixed;
     top: 0;
     left: 0;
@@ -372,7 +521,8 @@ body {
 }
 
 .project-modal.active,
-.contact-modal.active { /* Apply active state to both */
+.contact-modal.active {
+    /* Apply active state to both */
     opacity: 1;
     visibility: visible;
 }
@@ -400,7 +550,8 @@ body {
     width: 80%;
     max-width: 900px;
     max-height: 90vh;
-    overflow-y: auto; /* Enable scrolling for content */
+    overflow-y: auto;
+    /* Enable scrolling for content */
 
     /* Scrollbar Hiding (Cross-Browser) */
     -ms-overflow-style: none;
@@ -423,7 +574,8 @@ body {
 .project-modal .modal-content {
     /* If you want different max-width or padding for project modal, put it here */
     /* For instance, if its images force a different width/height */
-    max-width: 500px; /* Example: making project modal a bit narrower */
+    max-width: 500px;
+    /* Example: making project modal a bit narrower */
     /* padding: 2rem; */
 }
 
@@ -458,8 +610,10 @@ body {
 .modal-body {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers items horizontally */
-    width: 100%; /* Ensure it takes full width for form elements */
+    align-items: center;
+    /* Centers items horizontally */
+    width: 100%;
+    /* Ensure it takes full width for form elements */
 }
 
 .modal-description {
@@ -472,16 +626,19 @@ body {
 
 .modal-tags {
     margin-bottom: 2rem;
-    display: none; /* Tags are hidden inside the modal */
+    display: none;
+    /* Tags are hidden inside the modal */
 }
 
 .image-carousel {
     position: relative;
-    width: 100%; /* Allows it to shrink on smaller screens */
-    max-width: 350px; /* Primary control for carousel size */
+    width: 100%;
+    /* Allows it to shrink on smaller screens */
+    max-width: 350px;
+    /* Primary control for carousel size */
     margin-left: auto;
     margin-right: auto;
-    padding-bottom: calc(100% / 9 * 16); /* Maintains 9:16 aspect ratio based on its width */
+    padding-bottom: calc(100% / 9 * 16);
     background-color: var(--card-dark-off-white);
     border-radius: var(--border-radius-xl-plus);
     overflow: hidden;
@@ -506,7 +663,8 @@ body {
 .carousel-images img {
     min-width: 100%;
     height: 100%;
-    object-fit: contain; /* Scales image down to fit without cropping */
+    object-fit: contain;
+    /* Scales image down to fit without cropping */
     display: block;
     border-radius: var(--border-radius-xl-plus);
 }
@@ -539,7 +697,8 @@ body {
 }
 
 .project-link-btn,
-.send-message-btn { /* Apply common button styles */
+.send-message-btn {
+    /* Apply common button styles */
     display: inline-block;
     background-color: var(--glow-color);
     color: white;
@@ -553,7 +712,8 @@ body {
     transition: background-color 0.3s ease, transform 0.2s ease;
     cursor: pointer;
     border: none;
-    align-self: center; /* Centers the button if parent is flex column */
+    align-self: center;
+    /* Centers the button if parent is flex column */
 }
 
 .project-link-btn:hover,
@@ -564,7 +724,8 @@ body {
 
 /* NEW: Contact Form Specific Styles */
 .contact-modal .modal-content {
-    max-width: 500px; /* Adjust max-width for the contact form modal if different */
+    max-width: 500px;
+    /* Adjust max-width for the contact form modal if different */
     padding: 2.5rem;
 }
 
@@ -572,7 +733,8 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1rem; /* Space between form groups */
+    gap: 1rem;
+    /* Space between form groups */
 }
 
 .form-group {
@@ -591,7 +753,8 @@ body {
 .form-group input[type="email"],
 .form-group input[type="tel"],
 .form-group textarea {
-    width: calc(100% - 20px); /* Adjust for padding */
+    width: calc(100% - 20px);
+    /* Adjust for padding */
     padding: 10px;
     border: 1px solid var(--border-light);
     border-radius: 8px;
@@ -607,12 +770,15 @@ body {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--glow-color);
-    box-shadow: 0 0 0 2px rgba(198, 164, 250, 0.5); /* Glow on focus */
+    box-shadow: 0 0 0 2px rgba(198, 164, 250, 0.5);
+    /* Glow on focus */
 }
 
 .form-group textarea {
-    resize: vertical; /* Allow vertical resizing */
-    min-height: 100px; /* Minimum height for textarea */
+    resize: vertical;
+    /* Allow vertical resizing */
+    min-height: 100px;
+    /* Minimum height for textarea */
 }
 
 
@@ -633,6 +799,20 @@ body {
         min-height: auto;
     }
 
+    /* About card specific adjustments for tablet */
+    .portrait-card-wrapper {
+        min-height: 400px;
+        /* Adjust initial height if needed */
+    }
+
+    .portrait-card-wrapper.is-expanded {
+        min-height: 600px;
+        /* Adjust expanded height for tablet */
+    }
+
+    /* No card-main-image max-width here as it's full cover */
+
+
     .modal-content {
         width: 90%;
         padding: 1.5rem;
@@ -647,11 +827,13 @@ body {
     }
 
     .image-carousel {
-        max-width: 300px; /* Adjust for tablets */
+        max-width: 300px;
+        /* Adjust for tablets */
     }
 
     .contact-modal .modal-content {
-        max-width: 400px; /* Adjust for tablets */
+        max-width: 400px;
+        /* Adjust for tablets */
     }
 }
 
@@ -659,12 +841,15 @@ body {
     .grid-container {
         grid-template-columns: 1fr;
     }
+
     .main-nav {
         display: none;
     }
+
     .header {
         justify-content: center;
     }
+
     .main-quote-card,
     .portrait-card-wrapper,
     .project-card,
@@ -673,6 +858,37 @@ body {
         grid-column: span 1;
         min-height: auto;
     }
+
+    /* About section on small screens */
+    .portrait-card-wrapper {
+        min-height: 350px;
+        /* Adjust initial height for mobile */
+    }
+
+    .portrait-card-wrapper.is-expanded {
+        min-height: auto;
+        /* Allow height to be natural on small screens when expanded */
+    }
+
+    /* No card-main-image max-width here as it's full cover */
+
+    .expanded-text-area h3 {
+        font-size: 1.3rem;
+    }
+
+    .expanded-text-area p {
+        font-size: 0.85rem;
+    }
+
+    .expanded-text-area h4 {
+        font-size: 0.9rem;
+    }
+
+    .skill-category h5,
+    .skill-category ul li {
+        font-size: 0.8rem;
+    }
+
 
     .modal-content {
         width: 95%;
@@ -688,7 +904,8 @@ body {
     }
 
     .image-carousel {
-        max-width: 250px; /* Adjust for mobile */
+        max-width: 250px;
+        /* Adjust for mobile */
     }
 
     .carousel-nav {
@@ -697,7 +914,8 @@ body {
     }
 
     .contact-modal .modal-content {
-        max-width: 300px; /* Adjust for mobile */
+        max-width: 300px;
+        /* Adjust for mobile */
         padding: 1.2rem;
     }
 

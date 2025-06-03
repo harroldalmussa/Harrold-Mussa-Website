@@ -1,28 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const flipCard = document.querySelector('.portrait-card-wrapper');
+    const aboutCard = document.getElementById('about-card');
+    const aboutMeTriggerBtn = aboutCard.querySelector('.about-me-trigger-btn');
+    const closeCardBtn = aboutCard.querySelector('.close-card-btn');
+    const aboutLink = document.querySelector('.main-nav a[href="#about-card"]');
 
-    if (flipCard) {
-        flipCard.addEventListener('click', () => {
-            flipCard.classList.toggle('is-flipped');
-        });
+    function expandAboutCard() {
+        aboutCard.classList.add('is-expanded');
+        aboutCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    const aboutLink = document.querySelector('.main-nav a[href="#about"]');
-    if (aboutLink && flipCard) {
+    function closeAboutCard() {
+        aboutCard.classList.remove('is-expanded');
+    }
+
+    if (aboutLink && aboutCard) {
         aboutLink.addEventListener('click', (event) => {
             event.preventDefault();
-            flipCard.classList.add('is-flipped');
-            flipCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            expandAboutCard();
         });
     }
 
-    const flipBackBtn = document.querySelector('.portrait-card-back');
-    if (flipBackBtn && flipCard) {
-        flipBackBtn.addEventListener('click', (event) => {
+    if (aboutMeTriggerBtn) {
+        aboutMeTriggerBtn.addEventListener('click', expandAboutCard);
+    }
+
+    if (closeCardBtn) {
+        closeCardBtn.addEventListener('click', (event) => {
             event.stopPropagation();
-            if (flipCard.classList.contains('is-flipped')) {
-                flipCard.classList.remove('is-flipped');
-            }
+            closeAboutCard();
         });
     }
 
@@ -38,14 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Project Modal Elements ---
     const projectModal = document.getElementById('project-modal');
-    const projectCloseModalBtn = projectModal.querySelector('.close-modal-btn'); // Renamed to avoid conflict
+    const projectCloseModalBtn = projectModal.querySelector('.close-modal-btn');
     const modalTitle = projectModal.querySelector('.modal-title');
     const modalDescription = projectModal.querySelector('.modal-description');
     const modalTags = projectModal.querySelector('.modal-tags');
     const carouselImagesContainer = projectModal.querySelector('.carousel-images');
     const prevButton = projectModal.querySelector('.carousel-nav.prev');
     const nextButton = projectModal.querySelector('.carousel-nav.next');
-    const projectModalBody = projectModal.querySelector('.modal-body'); // Get body for project modal link button
+    const projectModalBody = projectModal.querySelector('.modal-body');
 
     let currentImageIndex = 0;
     let currentProjectImages = [];
@@ -53,23 +58,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Contact Modal Elements ---
     const contactMeCard = document.querySelector('.contact-me-card');
     const contactModal = document.getElementById('contact-modal');
-    const contactCloseModalBtn = contactModal.querySelector('.close-modal-btn'); // Renamed to avoid conflict
+    const contactCloseModalBtn = contactModal.querySelector('.close-modal-btn');
     const contactForm = document.getElementById('contact-form');
+    const navContactLink = document.querySelector('.main-nav a[href="#contact-modal"]');
 
 
-    // Define project data (unchanged, but now with link property)
+    // Define project data
     const projectsData = {
         konnektsocial: {
             title: 'KonnektSocial',
             description: 'Built a feature-rich social media application designed to facilitate vibrant online communities and foster real-time interaction. The platform includes secure user authentication, instant messaging via Socket.IO, intuitive post creation, engaging "moments" functionality, and efficient friend management. Enhanced with integrated image processing, this project underscores practical experience in delivering a complete, interactive, and visually appealing full-stack solution.',
             tags: ['React Native', 'Node.js', 'PostgreSQL', 'Socket.IO', 'Express.js', 'Bcrypt', 'JWT', 'Multer', 'Sharp'],
             images: [
-                './assets/konnektsocial/konnektsocial-1.png', // Changed to relative path
-                './assets/konnektsocial/konnektsocial-2.png',
-                './assets/konnektsocial/konnektsocial-3.png',
-                './assets/konnektsocial/konnektsocial-4.png',
-                './assets/konnektsocial/konnektsocial-5.png',
-                './assets/konnektsocial/konnektsocial-6.png',
+                '../assets/konnektsocial/konnektsocial-1.png',
+                '../assets/konnektsocial/konnektsocial-2.png',
+                '../assets/konnektsocial/konnektsocial-3.png',
+                '../assets/konnektsocial/konnektsocial-4.png',
+                '../assets/konnektsocial/konnektsocial-5.png',
+                '../assets/konnektsocial/konnektsocial-6.png',
             ],
             link: 'https://github.com/harroldalmussa/KonnektSocial'
         },
@@ -78,8 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
             description: 'A smart budget tracking application designed to help users manage their finances effectively. It integrates AI-powered insights to provide personalized recommendations and predictive analysis, helping users make informed financial decisions. The project showcases data visualization, machine learning integration, and secure financial data handling.',
             tags: ['Python', 'Flask', 'Machine Learning', 'PostgreSQL', 'SciKit-learn', 'Plotly.js'],
             images: [
-                './assets/pocketflow/pocketflow-1.jpg',
-                './assets/pocketflow/pocketflow-2.jpg',
+                '../assets/pocketflow/example1.png',
+                '../assets/pocketflow/example2.png',
+                '../assets/pocketflow/example3.png',
+                '../assets/pocketflow/example4.png',
+                '../assets/pocketflow/example5.png',
+                
             ],
             link: 'https://github.com/your-username/pocketflow'
         },
@@ -95,16 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-
-    // --- Project Modal Functions ---
-    function showProjectModal(projectId) { // Removed clickedCard param as it's not used
+    function showProjectModal(projectId) {
         const project = projectsData[projectId];
         if (!project) return;
 
         modalTitle.textContent = project.title;
         modalDescription.textContent = project.description;
 
-        modalTags.innerHTML = ''; // Clear previous tags
+        modalTags.innerHTML = '';
         project.tags.forEach(tag => {
             const span = document.createElement('span');
             span.textContent = tag;
@@ -122,8 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         updateCarousel();
 
-        // Add project link if available
-        // Remove existing button before adding new one for consistency
         const existingLinkBtn = projectModalBody.querySelector('.project-link-btn');
         if (existingLinkBtn) {
             existingLinkBtn.remove();
@@ -145,7 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideProjectModal() {
         projectModal.classList.remove('active');
         document.body.style.overflow = '';
-        // Clean up project-specific elements when closing the modal
         const existingLinkBtn = projectModalBody.querySelector('.project-link-btn');
         if (existingLinkBtn) {
             existingLinkBtn.remove();
@@ -178,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Contact Modal Functions ---
     function showContactModal() {
         contactModal.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -187,63 +191,60 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideContactModal() {
         contactModal.classList.remove('active');
         document.body.style.overflow = '';
-        contactForm.reset(); // Clear the form when closing
+        contactForm.reset();
     }
 
     function handleContactFormSubmit(event) {
-        event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); 
 
-        const formData = new FormData(contactForm);
-        const email = formData.get('email');
-        const phone = formData.get('phone');
-        const message = formData.get('message');
+    const formData = new FormData(contactForm);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
 
-        // Basic validation
-        if (!email || !message) {
-            alert('Please enter your email and message.');
-            return;
-        }
+    const sendMessageBtn = contactForm.querySelector('.send-message-btn');
+    const originalBtnText = sendMessageBtn.textContent;
+    sendMessageBtn.textContent = 'Sending...';
+    sendMessageBtn.disabled = true; 
 
-        // --- Placeholder for actual backend submission ---
-        console.log('Contact Form Submitted:');
-        console.log('Email:', email);
-        console.log('Phone:', phone || 'N/A');
-        console.log('Message:', message);
-
-        // In a real application, you would send this data to your backend server
-        // using fetch() or XMLHttpRequest.
-        // Example:
-        /*
-        fetch('/api/contact', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, phone, message }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            alert('Your message has been sent!');
+    fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: json
+    })
+    .then(async (response) => {
+        let resultJson = await response.json(); 
+        if (response.status === 200) {
+            alert('Your message has been sent successfully!');
             hideContactModal();
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert('Failed to send message. Please try again later.');
+        } else {
+            console.error('Web3Forms Error:', resultJson);
+            alert('Oops! Something went wrong. Please try again. Message: ' + resultJson.message);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch Error:', error);
+        alert('A network error occurred. Please check your internet connection and try again.');
+    })
+    .finally(() => {
+        sendMessageBtn.textContent = originalBtnText; 
+        sendMessageBtn.disabled = false; 
+        contactForm.reset(); 
+    });
+}
+
+    // For the main "Contact me" card
+    contactMeCard.addEventListener('click', showContactModal);
+    if (navContactLink) {
+        navContactLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            showContactModal();
         });
-        */
-        // For now, just show an alert and close the modal
-        alert('Your message has been sent! (Backend integration needed)');
-        hideContactModal();
     }
 
-
-    // --- Event Listeners ---
-
-    // Event Listener for the main "Contact me" card
-    contactMeCard.addEventListener('click', showContactModal);
-
-    // Event Listeners for Project Cards
+    // For Project Cards
     document.querySelectorAll('.project-card').forEach(card => {
         card.addEventListener('click', (event) => {
             const projectId = card.dataset.project;
@@ -251,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Event Listeners for Project Modal
+    // For Project Modal
     projectCloseModalBtn.addEventListener('click', hideProjectModal);
     prevButton.addEventListener('click', prevImage);
     nextButton.addEventListener('click', nextImage);
@@ -261,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Event Listeners for Contact Modal
+    // For Contact Modal
     contactCloseModalBtn.addEventListener('click', hideContactModal);
     contactForm.addEventListener('submit', handleContactFormSubmit);
     contactModal.addEventListener('click', (event) => {
@@ -270,24 +271,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
-    // Global Escape key listener for both modals
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
             if (projectModal.classList.contains('active')) {
                 hideProjectModal();
             } else if (contactModal.classList.contains('active')) {
                 hideContactModal();
+            } else if (aboutCard.classList.contains('is-expanded')) {
+                closeAboutCard(); // Close about card on escape
             }
         }
     });
 
-    // Animate cards on load
     const cards = document.querySelectorAll('.card');
     cards.forEach((card, index) => {
         setTimeout(() => {
             card.classList.add('card-animate-in');
-        }, 100 * index); // Staggered delay
+        }, 100 * index);
     });
 
 });
