@@ -70,12 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
             description: 'Built a feature-rich social media application designed to facilitate vibrant online communities and foster real-time interaction. The platform includes secure user authentication, instant messaging via Socket.IO, intuitive post creation, engaging "moments" functionality, and efficient friend management. Enhanced with integrated image processing, this project underscores practical experience in delivering a complete, interactive, and visually appealing full-stack solution.',
             tags: ['React Native', 'Node.js', 'PostgreSQL', 'Socket.IO', 'Express.js', 'Bcrypt', 'JWT', 'Multer', 'Sharp'],
             images: [
-                '../assets/konnektsocial/konnektsocial-1.png',
-                '../assets/konnektsocial/konnektsocial-2.png',
-                '../assets/konnektsocial/konnektsocial-3.png',
-                '../assets/konnektsocial/konnektsocial-4.png',
-                '../assets/konnektsocial/konnektsocial-5.png',
-                '../assets/konnektsocial/konnektsocial-6.png',
+                './assets/konnektsocial/konnektsocial-1.png',
+                './assets/konnektsocial/konnektsocial-2.png',
+                './assets/konnektsocial/konnektsocial-3.png',
+                './assets/konnektsocial/konnektsocial-4.png',
+                './assets/konnektsocial/konnektsocial-5.png',
+                './assets/konnektsocial/konnektsocial-6.png',
             ],
             link: 'https://github.com/harroldalmussa/KonnektSocial'
         },
@@ -84,11 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
             description: 'A smart budget tracking application designed to help users manage their finances effectively. It integrates AI-powered insights to provide personalized recommendations and predictive analysis, helping users make informed financial decisions. The project showcases data visualization, machine learning integration, and secure financial data handling.',
             tags: ['Python', 'Flask', 'Machine Learning', 'PostgreSQL', 'SciKit-learn', 'Plotly.js'],
             images: [
-                '../assets/pocketflow/example1.png',
-                '../assets/pocketflow/example2.png',
-                '../assets/pocketflow/example3.png',
-                '../assets/pocketflow/example4.png',
-                '../assets/pocketflow/example5.png',
+                './assets/pocketflow/example1.png',
+                './assets/pocketflow/example2.png',
+                './assets/pocketflow/example3.png',
+                './assets/pocketflow/example4.png',
+                './assets/pocketflow/example5.png',
                 
             ],
             link: 'https://github.com/your-username/pocketflow'
